@@ -26,6 +26,24 @@ def test_get_assignments_teacher_2(client, h_teacher_2):
         assert assignment['state'] in ['SUBMITTED', 'GRADED']
 
 
+def test_wrong_header_1(client, h_teacher_3):
+    response = client.get(
+        '/teacher/assignments',
+        headers=h_teacher_3
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_1(client):
+    response = client.get(
+        '/teacher/assignments',
+    )
+
+    assert response.status_code == 401
+
+
 def test_grade_assignment_cross(client, h_teacher_2):
     """
     failure case: assignment 1 was submitted to teacher 1 and not teacher 2
@@ -100,3 +118,22 @@ def test_grade_assignment_draft_assignment(client, h_teacher_1):
     data = response.json
 
     assert data['error'] == 'FyleError'
+
+
+def test_wrong_header_2(client, h_teacher_3):
+    response = client.post(
+        '/teacher/assignments/grade',
+        headers=h_teacher_3
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_2(client):
+    response = client.post(
+        '/teacher/assignments/grade',
+    )
+
+    assert response.status_code == 401
+

@@ -33,6 +33,17 @@ def h_student_2():
 
 
 @pytest.fixture
+def h_student_3():
+    headers = {
+        'X-Principal': json.dumps({
+            'user_id': 2
+        })
+    }
+
+    return headers
+
+
+@pytest.fixture
 def h_teacher_1():
     headers = {
         'X-Principal': json.dumps({
@@ -57,6 +68,17 @@ def h_teacher_2():
 
 
 @pytest.fixture
+def h_teacher_3():
+    headers = {
+        'X-Principal': json.dumps({
+            'user_id': 4
+        })
+    }
+
+    return headers
+
+
+@pytest.fixture
 def h_principal():
     headers = {
         'X-Principal': json.dumps({
@@ -66,3 +88,15 @@ def h_principal():
     }
 
     return headers
+
+
+@pytest.fixture
+def h_principal_1():
+    headers = {
+        'X-Principal': json.dumps({
+            'user_id': 5
+        })
+    }
+
+    return headers
+

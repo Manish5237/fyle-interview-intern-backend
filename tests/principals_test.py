@@ -14,6 +14,23 @@ def test_get_teachers(client, h_principal):
     assert len(data) == 2
 
 
+def test_wrong_header_1(client, h_principal_1):
+    response = client.get(
+        '/principal/teachers',
+        headers=h_principal_1
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_1(client):
+    response = client.get(
+        '/principal/teachers'
+    )
+
+    assert response.status_code == 401
+
 
 def test_get_assignments(client, h_principal):
     response = client.get(
@@ -27,6 +44,23 @@ def test_get_assignments(client, h_principal):
     for assignment in data:
         assert assignment['state'] in [AssignmentStateEnum.SUBMITTED, AssignmentStateEnum.GRADED]
         
+
+def test_wrong_header_2(client, h_principal_1):
+    response = client.get(
+        '/principal/assignments',
+        headers=h_principal_1
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_2(client):
+    response = client.get(
+        '/principal/assignments'
+    )
+
+    assert response.status_code == 401
 
 
 def test_grade_assignment_draft_assignment(client, h_principal):
@@ -115,3 +149,19 @@ def test_grade_assignment_bad_assignment(client, h_principal):
     assert data['error'] == 'FyleError'
 
 
+def test_wrong_header_3(client, h_principal_1):
+    response = client.post(
+        '/principal/assignments/grade',
+        headers=h_principal_1
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_3(client):
+    response = client.post(
+        '/principal/assignments/grade',
+    )
+
+    assert response.status_code == 401

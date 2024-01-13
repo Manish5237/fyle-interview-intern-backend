@@ -57,12 +57,30 @@ def test_post_assignment_student_1(client, h_student_1):
     assert data['teacher_id'] is None
 
 
+def test_wrong_header_1(client, h_student_3):
+    response = client.post(
+        '/student/assignments',
+        headers=h_student_3
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_1(client):
+    response = client.post(
+        '/student/assignments',
+    )
+
+    assert response.status_code == 401
+
+
 def test_submit_assignment_student_1(client, h_student_1):
     response = client.post(
         '/student/assignments/submit',
         headers=h_student_1,
         json={
-            'id': 419,
+            'id': 885,
             'teacher_id': 2
         })
 
@@ -86,3 +104,21 @@ def test_assignment_resubmit_error(client, h_student_1):
     assert response.status_code == 400
     assert error_response['error'] == 'FyleError'
     assert error_response["message"] == 'only a draft assignment can be submitted'
+
+
+def test_wrong_header_2(client, h_student_3):
+    response = client.post(
+        '/student/assignments/submit',
+        headers=h_student_3
+    )
+
+    assert response.status_code == 403
+
+
+
+def test_no_header_2(client):
+    response = client.post(
+        '/student/assignments/submit',
+    )
+
+    assert response.status_code == 401
