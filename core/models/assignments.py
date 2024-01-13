@@ -6,7 +6,6 @@ from core.models.teachers import Teacher
 from core.models.students import Student
 from sqlalchemy.types import Enum as BaseEnum
 
-
 class GradeEnum(str, enum.Enum):
     A = 'A'
     B = 'B'
@@ -67,8 +66,8 @@ class Assignment(db.Model):
         assertions.assert_valid(assignment.student_id == auth_principal.student_id, 'This assignment belongs to some other student')
         assertions.assert_valid(assignment.content is not None, 'assignment with empty content cannot be submitted')
         assertions.assert_valid(assignment.state is AssignmentStateEnum.DRAFT, 'only a draft assignment can be submitted')
-        assignment.state = AssignmentStateEnum.SUBMITTED
         assignment.teacher_id = teacher_id
+        assignment.state = AssignmentStateEnum.SUBMITTED
         db.session.flush()
 
         return assignment
@@ -101,5 +100,5 @@ class Assignment(db.Model):
     @classmethod
     def validate_teacher_id_of_assignment(cls, assignment_id, teacher_id):
 
-        valid_assignments = cls.filter(cls.id == assignment_id and cls.teacher_id == teacher_id).all()
-        assertions.assert_valid(len(valid_assignments) != 1, 'This assignment does not belong to the given teacher')
+        valid_assignments = cls.filter(cls.id == assignment_id).filter(cls.teacher_id == teacher_id).all()
+        assertions.assert_valid(len(valid_assignments) == 1, 'This assignment does not belong to the given teacher')

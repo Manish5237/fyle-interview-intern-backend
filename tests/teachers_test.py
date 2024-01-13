@@ -77,7 +77,7 @@ def test_grade_assignment_bad_assignment(client, h_teacher_1):
         }
     )
 
-    assert response.status_code == 404
+    assert response.status_code == 400
     data = response.json
 
     assert data['error'] == 'FyleError'
