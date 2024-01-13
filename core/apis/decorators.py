@@ -3,7 +3,6 @@ from flask import request
 from core.libs import assertions
 from functools import wraps
 
-
 class AuthPrincipal:
     def __init__(self, user_id, student_id=None, teacher_id=None, principal_id=None):
         self.user_id = user_id
@@ -20,11 +19,23 @@ def accept_payload(func):
     return wrapper
 
 
+def check_content(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        incoming_payload = request.json
+
+        assertions.assert_valid('content' in incoming_payload and incoming_payload['content'] is not None, 
+                               'Content cannot be None')
+        
+        return func(*args, **kwargs)
+    return wrapper
+    
+
+
 def authenticate_principal(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         p_str = request.headers.get('X-Principal')
-        print(p_str)
         assertions.assert_auth(p_str is not None, 'principal not found')
         p_dict = json.loads(p_str)
         p = AuthPrincipal(

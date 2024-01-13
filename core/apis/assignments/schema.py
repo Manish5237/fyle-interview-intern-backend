@@ -1,7 +1,7 @@
 from marshmallow import Schema, EXCLUDE, fields, post_load
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow_enum import EnumField
-from core.models.assignments import Assignment, GradeEnum, Teacher
+from core.models.assignments import Assignment, GradeEnum, Teacher, AssignmentStateEnum
 from core.libs.helpers import GeneralObject
 
 
