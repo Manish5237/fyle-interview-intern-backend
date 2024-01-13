@@ -43,7 +43,7 @@ def create_n_graded_assignments_for_teacher(number: int = 0, teacher_id: int = 1
         if grade == GradeEnum.A:
             grade_a_counter = grade_a_counter + 1
 
-    # Commit changes to the database
+    # Commit changes to the database    
     db.session.commit()
 
     # Return the count of assignments with grade 'A'
